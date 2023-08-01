@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "lint:fix": "eslint --fix",
+    "prepare": "husky install",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@types/node": "20.4.5",
@@ -17,6 +21,34 @@
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "mongoose": "^6.0.12",
+    "@mantine/core": "^2.1.0",
+    "@mantine/hooks": "^2.1.0",
+    "@mantine/notifications": "^2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-config-next": "^12.1.0",
+    "husky": "^8.4.0",
+    "lint-staged": "^12.2.0",
+    "prettier": "^2.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run type-check",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint:fix",
+      "npm run prettier",
+      "git add"
+    ],
+    "**/*.{json,css,scss,md}": [
+      "npm run prettier",
+      "git add"
+    ]
   }
 }
